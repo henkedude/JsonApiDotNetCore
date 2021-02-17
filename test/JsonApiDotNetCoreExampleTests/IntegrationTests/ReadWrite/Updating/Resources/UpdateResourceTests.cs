@@ -1082,12 +1082,18 @@ namespace JsonApiDotNetCoreExampleTests.IntegrationTests.ReadWrite.Updating.Reso
 
             await _testContext.RunOnDatabaseAsync(async dbContext =>
             {
+                // @formatter:wrap_chained_method_calls chop_always
+                // @formatter:keep_existing_linebreaks true
+
                 var workItemInDatabase = await dbContext.WorkItems
                     .Include(workItem => workItem.Assignee)
                     .Include(workItem => workItem.Subscribers)
                     .Include(workItem => workItem.WorkItemTags)
                     .ThenInclude(workItemTag => workItemTag.Tag)
                     .FirstAsync(workItem => workItem.Id == existingWorkItem.Id);
+
+                // @formatter:keep_existing_linebreaks restore
+                // @formatter:wrap_chained_method_calls restore
 
                 workItemInDatabase.Description.Should().Be(newDescription);
 
@@ -1177,12 +1183,18 @@ namespace JsonApiDotNetCoreExampleTests.IntegrationTests.ReadWrite.Updating.Reso
 
             await _testContext.RunOnDatabaseAsync(async dbContext =>
             {
+                // @formatter:wrap_chained_method_calls chop_always
+                // @formatter:keep_existing_linebreaks true
+
                 var workItemInDatabase = await dbContext.WorkItems
                     .Include(workItem => workItem.Parent)
                     .Include(workItem => workItem.Children)
                     .Include(workItem => workItem.RelatedToItems)
                     .ThenInclude(workItemToWorkItem => workItemToWorkItem.ToItem)
                     .FirstAsync(workItem => workItem.Id == existingWorkItem.Id);
+
+                // @formatter:keep_existing_linebreaks restore
+                // @formatter:wrap_chained_method_calls restore
 
                 workItemInDatabase.Parent.Should().NotBeNull();
                 workItemInDatabase.Parent.Id.Should().Be(existingWorkItem.Id);
